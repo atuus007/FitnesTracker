@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <!--
+
+Ez arar van hogy jelezzük hogy annotáciokat fogunk használni hogy konfiguráljuk a app-ot
+
+-->
+    <mvc:annotation-driven/>
+    <!--
+        Ez azt mondja ki hogy hol kellene nézni ezeket az annotáciokat
+-->
+
+    <context:component-scan base-package="hu.animus.controller"/>
+    <!--
+        Itt mondjuk meg a Controllerünken hogy melyik jsp-t kell megniytni
+        ennek van két formája
+        amik a következők
+-->
+    <!--
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+     -->
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+</beans>
