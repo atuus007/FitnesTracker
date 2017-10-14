@@ -7,22 +7,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-    <!--
 
-Ez arar van hogy jelezzük hogy annotáciokat fogunk használni hogy konfiguráljuk a app-ot
-
--->
     <mvc:annotation-driven/>
-    <!--
-        Ez azt mondja ki hogy hol kellene nézni ezeket az annotáciokat
--->
-
+    <!--megadjuk hogy itt keresse a controller osztályokat-->
     <context:component-scan base-package="hu.animus.controller"/>
-    <!--
-        Itt mondjuk meg a Controllerünken hogy melyik jsp-t kell megniytni
-        ennek van két formája
-        amik a következők
--->
+    <mvc:resources mapping="pdfs" location="/pdfs/**"/>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>
+    <mvc:interceptors>
+        <!--az a language paraméter érték amit a hello jsp-ben adung meg amikor kibálasztjuk hogy melyik nyelv legyen-->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="language"/>
+    </mvc:interceptors>
+    <!--itt azt állitjuk be hogy angol legyen alapbol-->
+    <bean id="LocaleResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" p:defaultLocale="en"/>
+    
+
     <!--
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
@@ -32,4 +30,5 @@ Ez arar van hogy jelezzük hogy annotáciokat fogunk használni hogy konfigurál
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
 </beans>
