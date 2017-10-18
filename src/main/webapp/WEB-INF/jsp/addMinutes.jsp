@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Ati
-  Date: 2017. 10. 14.
-  Time: 16:03
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -14,7 +7,7 @@
 </head>
 <body>
     <h1>Add minutes exercise</h1>
-    Language : <a href="?language=en">English</a> | <a href="?language=es">Spanish</a>
+    Language : <a href="?language=en">English</a> | <a href="?language=es">Spanish</a> | <a href="?language=hu">Hungarian</a>
     <!--ez a form össze van kötve a model osztályal a exercise-on keresztül-->
     <form:form commandName="exercise">
         <table>

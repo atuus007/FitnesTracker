@@ -4,22 +4,67 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <mvc:annotation-driven/>
+    <mvc:resources mapping="pdfs" location="/pdfs/**"/>
     <!--megadjuk hogy itt keresse a controller osztályokat-->
     <context:component-scan base-package="hu.animus.controller"/>
-    <mvc:resources mapping="pdfs" location="/pdfs/**"/>
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="1"/>
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManager">
+                <constructor-arg>
+                    <!--azt mondja meg milyen path type-ot fogunk elfogadni-->
+                    <bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+                        <constructor-arg>
+                            <map>
+                                <entry key="json" value="application/json"/>
+                                <entry key="xml" value="application/xml"/>
+                            </map>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                    <property name="contentType" value="application/json"/>
+                </bean>
+
+                <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                    <constructor-arg>
+                        <bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+                            <property name="autodetectAnnotations" value="true" />
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <mvc:interceptors>
         <!--az a language paraméter érték amit a hello jsp-ben adung meg amikor kibálasztjuk hogy melyik nyelv legyen-->
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="language"/>
     </mvc:interceptors>
     <!--itt azt állitjuk be hogy angol legyen alapbol-->
-    <bean id="LocaleResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" p:defaultLocale="en"/>
-    
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+          p:defaultLocale="en"/>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="2"/>
+
+
 
     <!--
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,6 +74,6 @@
      -->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="0"/>
 
 </beans>

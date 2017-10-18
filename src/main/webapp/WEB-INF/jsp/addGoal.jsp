@@ -10,17 +10,32 @@
 <html>
 <head>
     <title>Add Goal</title>
+    <style>
+        .error{
+            color: #ff0000;
+        }
+        .errorblock{
+            color:#000;
+            background-color: aqua;
+            border: 3px solid #ff0000;
+            margin: 16px;
+        }
+    </style>
 </head>
 <body>
     <form:form commandName="goal">
+        <!-- A * azt jelenti hogy minden hibát kapjon el ami keletkezik-->
+        <!-- És megadom neki azt a css stilust amit csináltam-->
+        <form:errors path="*" cssClass="errorblock" element="div"/>
         <table>
             <tr>
                 <td>Enter minutes</td>
                 <!--ez annyit tenne ki hogy a goal osztályon belül van egy minutes tagváltozo--->
-                <td><form:input path="minutes"/></td>
+                <td><form:input path="minutes" cssErrorClass="errorblock" /></td>
+                <td><form:errors path="minutes" cssClass="error"/></td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     <input type="submit" value="Enter Goal minutes"/>
                 </td>
 
