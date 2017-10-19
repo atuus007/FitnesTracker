@@ -15,7 +15,7 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="pdfs" location="/pdfs/**"/>
     <!--megadjuk hogy itt keresse a controller osztályokat-->
-    <context:component-scan base-package="hu.animus.controller"/>
+    <context:component-scan base-package="hu.animus"/>
 
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1"/>
